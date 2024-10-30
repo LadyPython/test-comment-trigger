@@ -14,7 +14,7 @@ jobs:
         env:
           PR_NUMBER: ${{ github.event.issue.number }}
           REPO: ${{ github.repository }}
+          SHA_REF: ${{ github.event.issue.pull_request.head.ref }}
         run: |
-          SHA_REF=$(gh api "/repos/$REPO/pulls/$PR_NUMBER/commits" | jq -r '.[].sha' | tail -n 1)
           RUN_ID=$(gh api "repos/$REPO/actions/workflows/test.yml/runs?per_page=1&event=pull_request&head_sha=$SHA_REF" | jq -r '.workflow_runs[] | .id')
           gh api --method POST repos/$REPO/actions/runs/$RUN_ID/rerun-failed-jobs
