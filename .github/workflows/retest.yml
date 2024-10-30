@@ -14,6 +14,8 @@ jobs:
       REPO: ${{ github.repository }}
       SHA_REF: ${{ github.event.issue.pull_request.head.ref }}
     if: github.event.issue.pull_request && contains(github.event.comment.body, '/retest')
+    permissions:
+      actions: write
     steps:
       - name: Re-run failed jobs for this PR
         run: |
