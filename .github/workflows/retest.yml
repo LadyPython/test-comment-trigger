@@ -17,6 +17,10 @@ jobs:
     permissions:
       actions: write
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Re-run failed jobs for this PR
         run: |
           RUN_ID=$(curl -H "Accept: application/vnd.github+json" \
