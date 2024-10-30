@@ -1,14 +1,15 @@
 name: Test        
     
 on:
-  issue_comment:
+  pull_request:
     
 jobs:
   test:        
     name: Test     
     runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/master'
     env:
-      PR_NUMBER: ${{ github.event.issue.number }}
+      PR_NUMBER: ${{ github.event.number }}
     steps:
       - name: Dump GitHub context
         env:
