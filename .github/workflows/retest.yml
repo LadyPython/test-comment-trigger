@@ -17,5 +17,10 @@ jobs:
     steps:
       - name: Re-run failed jobs for this PR
         run: |
-          RUN_ID=$(gh api "repos/$REPO/actions/workflows/test.yml/runs?per_page=1&event=pull_request&head_sha=$SHA_REF" | jq -r '.workflow_runs[] | .id')
-          gh api --method POST repos/$REPO/actions/runs/$RUN_ID/rerun-failed-jobs
+          RUN_ID=$(curl -H "Accept: application/vnd.github+json" \
+                        -H "Authorization: Bearer $GH_TOKEN" \
+                        "https://api.github.com/repos/$REPO/actions/workflows/auto_approve.yml/runs?per_page=1&event=pull_request&head_sha=$SHA_REF" | jq -r '.workflow_runs[] | .id')
+          curl -X POST \
+               -H "Accept: application/vnd.github+json" \
+               -H "Authorization: Bearer $GH_TOKEN" \
+               "https://api.github.com/repos/$REPO/actions/runs/$RUN_ID/rerun-failed-jobs"
