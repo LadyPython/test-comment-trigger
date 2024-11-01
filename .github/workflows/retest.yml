@@ -13,7 +13,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       PR_NUMBER: ${{ github.event.issue.number }}
       REPO: ${{ github.repository }}
-    if: github.event.issue.pull_request && contains(github.event.comment.body, '/retest') || github.event.review.state == 'approved'
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/retest') || github.event.review.state == 'commented'
     permissions:
       actions: write
     steps:
